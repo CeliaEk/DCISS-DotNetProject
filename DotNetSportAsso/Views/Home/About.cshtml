@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Qui sommes nous ?";
+}
+<!--Présenter notre association-->
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+<br />
+<p>
+    SportAsso a été créée en 2010 par Sébastien Dupon et Karine Gathié, dans le but de faire découvrir des activités sportives en tous genres et
+    les rendre accessibles à tous. <br /> Chez SportAsso nous souhaitons que nos adhérents puissent :
+</p>
+<ul>
+    <li>Découvrir des activités sportives à prix réduit</li>
+    <li>Partager des moments conviviables avec les autres</li>
+    <li>Trouver des encadrants qui sauront rendre les séances attractives</li>
+</ul>
+
+<p>Depuis sa création, SportAsso a pu s'entourer d'encadrant de haut niveau pour répondre aux besoins de chacun, et développer l'offre de discipline que nous proposons à nos adhérents</p>
+<br />
+<h3>Nos valeurs</h3>
+<br />
+<p>
+    SportAsso veille à la qualité des rapports humains (convivialité, tolérance, bienveillance, entraide, respect mutuel),
+    mais elle affiche également des valeurs propres, reconnues et confirmées par nos adhérents, qui sont :
+</p>
+<ul>
+    <li>Le respect des consignes et des encadrants</li>
+    <li>La vie associative, organisation des rencontres et autres évènements</li>
+    <li>Le partage et l'entraide au sein de nos adhérents ainsi qu'avec l'équipe encadrante de l'association</li>
+</ul>
+
+<br />
+
+@Html.ActionLink("Rejoingez-nous", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+

@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bdSportAssoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="discipline">
+    <Key>
+      <PropertyRef Name="discipline_id" />
+    </Key>
+    <Property Name="discipline_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="discipline_nom" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="encadrant_id" Type="bigint" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="500" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dossier">
+    <Key>
+      <PropertyRef Name="dossier_id" />
+    </Key>
+    <Property Name="dossier_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="utilisateur_id" Type="bigint" Nullable="false" />
+    <Property Name="certificat_medical" Type="bit" Nullable="false" />
+    <Property Name="fiche_renseignement" Type="bit" Nullable="false" />
+    <Property Name="assurance" Type="bit" Nullable="false" />
+    <Property Name="paiement" Type="bit" Nullable="false" />
+    <Property Name="dossier_complet" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="lieu">
+    <Key>
+      <PropertyRef Name="lieu_id" />
+    </Key>
+    <Property Name="lieu_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="lieu_nom" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="adresse_lieu" Type="varchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="seance">
+    <Key>
+      <PropertyRef Name="seance_id" />
+    </Key>
+    <Property Name="seance_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="lieu_id" Type="bigint" Nullable="false" />
+    <Property Name="encadrant_id" Type="bigint" Nullable="false" />
+    <Property Name="jour" Type="datetime" Nullable="false" />
+    <Property Name="heure_debut" Type="time" Precision="7" Nullable="false" />
+    <Property Name="heure_fin" Type="time" Precision="7" Nullable="false" />
+    <Property Name="section_id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="section">
+    <Key>
+      <PropertyRef Name="section_id" />
+    </Key>
+    <Property Name="section_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="discipline_id" Type="bigint" Nullable="false" />
+    <Property Name="section_nom" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="encadrant_id" Type="bigint" Nullable="false" />
+    <Property Name="places_max" Type="int" Nullable="false" />
+    <Property Name="prix" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="500" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="utilisateur">
+    <Key>
+      <PropertyRef Name="utilisateur_id" />
+    </Key>
+    <Property Name="utilisateur_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="prenom" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="adresse" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="telephone" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="role_utilisateur" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <Association Name="discipline_section_fk">
+    <End Role="discipline" Type="Self.discipline" Multiplicity="1" />
+    <End Role="section" Type="Self.section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="discipline">
+        <PropertyRef Name="discipline_id" />
+      </Principal>
+      <Dependent Role="section">
+        <PropertyRef Name="discipline_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="encadrant_discipline_fk">
+    <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+    <End Role="discipline" Type="Self.discipline" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilisateur">
+        <PropertyRef Name="utilisateur_id" />
+      </Principal>
+      <Dependent Role="discipline">
+        <PropertyRef Name="encadrant_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="encadrant_seance_fk">
+    <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+    <End Role="seance" Type="Self.seance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilisateur">
+        <PropertyRef Name="utilisateur_id" />
+      </Principal>
+      <Dependent Role="seance">
+        <PropertyRef Name="encadrant_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="encadrant_section_fk">
+    <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+    <End Role="section" Type="Self.section" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilisateur">
+        <PropertyRef Name="utilisateur_id" />
+      </Principal>
+      <Dependent Role="section">
+        <PropertyRef Name="encadrant_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="lieu_seance_fk">
+    <End Role="lieu" Type="Self.lieu" Multiplicity="1" />
+    <End Role="seance" Type="Self.seance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lieu">
+        <PropertyRef Name="lieu_id" />
+      </Principal>
+      <Dependent Role="seance">
+        <PropertyRef Name="lieu_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="section_seance_fk">
+    <End Role="section" Type="Self.section" Multiplicity="1" />
+    <End Role="seance" Type="Self.seance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="section">
+        <PropertyRef Name="section_id" />
+      </Principal>
+      <Dependent Role="seance">
+        <PropertyRef Name="section_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="utilisateur_dossier_fk">
+    <End Role="utilisateur" Type="Self.utilisateur" Multiplicity="1" />
+    <End Role="dossier" Type="Self.dossier" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="utilisateur">
+        <PropertyRef Name="utilisateur_id" />
+      </Principal>
+      <Dependent Role="dossier">
+        <PropertyRef Name="utilisateur_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="bdSportAssoModelStoreContainer">
+    <EntitySet Name="discipline" EntityType="Self.discipline" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="dossier" EntityType="Self.dossier" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="lieu" EntityType="Self.lieu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="seance" EntityType="Self.seance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="section" EntityType="Self.section" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="utilisateur" EntityType="Self.utilisateur" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="discipline_section_fk" Association="Self.discipline_section_fk">
+      <End Role="discipline" EntitySet="discipline" />
+      <End Role="section" EntitySet="section" />
+    </AssociationSet>
+    <AssociationSet Name="encadrant_discipline_fk" Association="Self.encadrant_discipline_fk">
+      <End Role="utilisateur" EntitySet="utilisateur" />
+      <End Role="discipline" EntitySet="discipline" />
+    </AssociationSet>
+    <AssociationSet Name="encadrant_seance_fk" Association="Self.encadrant_seance_fk">
+      <End Role="utilisateur" EntitySet="utilisateur" />
+      <End Role="seance" EntitySet="seance" />
+    </AssociationSet>
+    <AssociationSet Name="encadrant_section_fk" Association="Self.encadrant_section_fk">
+      <End Role="utilisateur" EntitySet="utilisateur" />
+      <End Role="section" EntitySet="section" />
+    </AssociationSet>
+    <AssociationSet Name="lieu_seance_fk" Association="Self.lieu_seance_fk">
+      <End Role="lieu" EntitySet="lieu" />
+      <End Role="seance" EntitySet="seance" />
+    </AssociationSet>
+    <AssociationSet Name="section_seance_fk" Association="Self.section_seance_fk">
+      <End Role="section" EntitySet="section" />
+      <End Role="seance" EntitySet="seance" />
+    </AssociationSet>
+    <AssociationSet Name="utilisateur_dossier_fk" Association="Self.utilisateur_dossier_fk">
+      <End Role="utilisateur" EntitySet="utilisateur" />
+      <End Role="dossier" EntitySet="dossier" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

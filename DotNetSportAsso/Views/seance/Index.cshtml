@@ -1,0 +1,64 @@
+﻿@model IEnumerable<DotNetSportAsso.Models.seance>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.lieu_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.encadrant_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.jour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.heure_debut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.heure_fin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.section_id)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.lieu_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.encadrant_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.jour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.heure_debut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.heure_fin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.section_id)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.seance_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.seance_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.seance_id })
+            </td>
+        </tr>
+    }
+
+</table>

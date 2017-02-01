@@ -1,0 +1,64 @@
+﻿@model IEnumerable<DotNetSportAsso.Models.dossier>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.utilisateur_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.certificat_medical)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fiche_renseignement)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.assurance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.paiement)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dossier_complet)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.utilisateur_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.certificat_medical)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fiche_renseignement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.assurance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.paiement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dossier_complet)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.dossier_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.dossier_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.dossier_id })
+            </td>
+        </tr>
+    }
+
+</table>

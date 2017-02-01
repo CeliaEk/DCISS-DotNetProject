@@ -1,0 +1,42 @@
+﻿@model DotNetSportAsso.Models.participe
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>participe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.participant_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.participant_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.utilisateur_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.utilisateur_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.section_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.section_id)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

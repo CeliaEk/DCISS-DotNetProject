@@ -1,0 +1,234 @@
+﻿@model IEnumerable<DotNetSportAsso.Models.section>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<!--Affichage admin et encadrant-->
+@if (User.IsInRole("encadrant"))
+{
+    {
+        ViewBag.Title = "Encadrant";
+    }
+    <br />
+
+    <h2 class="center">Accueil Encadrant</h2>
+    <hr />
+        <section>
+            <h3> Mes sections</h3>
+            <hr />
+            @if (ViewBag.hasSection == "false")
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            <bold> Nom </bold>
+                        </th>
+                        <th>
+                            <bold> Description </bold>
+                        </th>
+                        <th>
+                            <bold> Rattachée à la discipline </bold>
+                        </th>
+                        <th>
+                            <bold> Encadrée par </bold>
+                        </th>
+                        <th>
+                            <bold> Place disponible </bold>
+                        </th>
+                        <th>
+                            <bold> Prix </bold>
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in ViewBag.section)
+                    {
+                        <tr>
+                            <td>
+                                @item.section_nom
+                            </td>
+                            <td>
+                                @item.description
+                            </td>
+                            <td>
+                                @DotNetSportAsso.Controllers.sectionController.FindDisciplineNameById(item.discipline_id)
+                            </td>
+                            <td>
+                                @DotNetSportAsso.Controllers.sectionController.FindUserFullNameById(item.encadrant_id)
+                            </td>
+                            <td>
+                                @DotNetSportAsso.Controllers.sectionController.calculNbPLace(item)
+                            </td>
+                            <td>
+                                @item.prix
+                            </td>
+                            <td>
+                                @Html.ActionLink("Voir les séances", "Index", "seance", new { id = item.section_id }, new { @class = "btn btn - default" })
+                                <br />
+                                @Html.ActionLink("Modifier la section", "Edit", "section", new { id = item.section_id }, new { @class = "btn btn - default" })
+                                <br />
+                                @Html.ActionLink("Supprimer la section", "Delete", "section", new { id = item.section_id }, new { @class = "btn btn - default" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <p>Aucunes sections trouvées</p>
+            }
+
+            <hr />
+        </section>
+}
+else
+{
+    if (User.IsInRole("admin"))
+    {
+        <h2>Index</h2>
+        <br />
+
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.section_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.section_nom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.discipline_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.encadrant_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.places_max)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.nbParticipant)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.prix)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.section_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.section_nom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.discipline_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.encadrant_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.places_max)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nbParticipant)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.prix)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.section_id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.section_id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.section_id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    }
+    else
+    {
+
+        <h2 class="center">Liste des section au sein de la discipline @ViewBag.maDiscipline </h2>
+        <hr />
+        <br />
+
+        if (ViewBag.hasSection == "false")
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        <bold> Nom </bold>
+                    </th>
+                    <th>
+                        <bold> Description </bold>
+                    </th>
+                    <th>
+                        <bold> Rattachée à la discipline </bold>
+                    </th>
+                    <th>
+                        <bold> Encadrée par </bold>
+                    </th>
+                    <th>
+                        <bold> Place disponible </bold>
+                    </th>
+                    <th>
+                        <bold> Prix </bold>
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in ViewBag.section)
+                {
+                    <tr>
+                        <td>
+                            @item.section_nom
+                        </td>
+                        <td>
+                            @item.description
+                        </td>
+                        <td>
+                            @DotNetSportAsso.Controllers.sectionController.FindDisciplineNameById(item.discipline_id)
+                        </td>
+                        <td>
+                            @DotNetSportAsso.Controllers.sectionController.FindUserFullNameById(item.encadrant_id)
+                        </td>
+                        <td>
+                            @DotNetSportAsso.Controllers.sectionController.calculNbPLace(item)
+                        </td>
+                        <td>
+                            @item.prix
+                        </td>
+                        <td>
+                            @Html.ActionLink("Voir les séances", "Index", "seance", new { id = item.section_id }, new { @class = "btn btn - default" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+        else
+        {
+            <p>Aucunes sections trouvées</p>
+        }
+
+        <hr />
+
+    }
+}

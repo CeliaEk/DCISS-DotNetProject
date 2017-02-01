@@ -1,0 +1,222 @@
+﻿@model IEnumerable<DotNetSportAsso.Models.discipline>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<!--Affichage admin et encadrant-->
+@if (User.IsInRole("encadrant"))
+{
+    {
+        ViewBag.Title = "Encadrant";
+    }
+
+    <h2 class="center">Accueil Encadrant</h2>
+        <hr />
+        <section>
+            <h3> Mes Disciplines</h3>
+            <hr />
+            @if (ViewBag.hasDiscipline == "false")
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            <bold> Nom </bold>
+                        </th>
+                        <th>
+                            <bold> Description </bold>
+                        </th>
+                        <th>
+                            <bold> Responsable</bold>
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in ViewBag.discipline)
+                    {
+                        <tr>
+                            <td>
+                                @item.discipline_nom
+                            </td>
+                            <td>
+                                @item.description
+                            </td>
+                            <td>
+                                @DotNetSportAsso.Controllers.disciplineController.GetUserFullNameByLogin(item.utilisateur.login)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Voir les sections", "Index", "section", new { id = item.discipline_id }, new { @class = "btn btn - default" })
+                                <br />
+                                @Html.ActionLink("Modifier la discipline", "Edit", "discipline", new { id = item.discipline_id }, new { @class = "btn btn - default" })
+                                <br />
+                                @Html.ActionLink("Supprimer la discipline", "Delete", "discipline", new { id = item.discipline_id }, new { @class = "btn btn - default" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <p>Aucunes disciplies trouvés</p>
+            }
+
+            <hr />
+        </section>
+        <section>
+            <h3> Mes Sections</h3>
+            <hr />
+            @if (ViewBag.hasSection == "false")
+            {
+                <table class="table">
+                    <tr>
+                        <th>
+                            <bold> Discipline </bold>
+                        </th>
+                        <th>
+                            <bold> Nom </bold>
+                        </th>
+                        <th>
+                            <bold> Description </bold>
+                        </th>
+
+                        <th>
+                            <bold> Prix </bold>
+                        </th>
+
+                        <th>
+                            <bold>responsable</bold>
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item2 in ViewBag.section)
+                    {
+                        <tr>
+                            <td>
+                                @item2.discipline.discipline_nom
+                            </td>
+                            <td>
+                                @item2.section_nom
+                            </td>
+                            <td>
+                                @item2.description
+                            </td>
+                            <td>
+                                @item2.prix
+                            </td>
+
+                            <td>
+                                @DotNetSportAsso.Controllers.sectionController.FindUserFullNameById(item2.encadrant_id)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Voir les séances", "Index", "seance", new { id = item2.section_id }, new { @class = "btn btn - default" })
+                                <br />
+                                <br />
+                                @Html.ActionLink("Modifier la section", "Edit", "section", new { id = item2.section_id }, new { @class = "btn btn - default" })
+                                <br />
+                                <br />
+                                @Html.ActionLink("Supprimer la section", "Delete", "section", new { id = item2.section_id }, new { @class = "btn btn - default" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <p>Aucunes sections trouvés</p>
+            }
+            <hr />
+        </section>
+}
+else
+{
+    if (User.IsInRole("admin"))
+    {
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.discipline_nom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.encadrant_id)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.discipline_nom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.encadrant_id)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.discipline_id }) <span>|</span>
+                        @Html.ActionLink("Details", "Details", new { id = item.discipline_id }) <span>|</span>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.discipline_id })
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    }
+    else
+    {
+        <h2 class="center">Liste des disciplines au sein de SportAsso</h2>
+        <hr />
+        <h3>Vous trouverez les sections associées à chaque disicpline en cliquant sur "voir les sections".</h3>
+        <br />
+        if (ViewBag.hasDiscipline == "false")
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        <bold> Nom </bold>
+                    </th>
+                    <th>
+                        <bold> Description </bold>
+                    </th>
+                    <th>
+                        <bold> Responsable</bold>
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in ViewBag.disciplineALL)
+                {
+                    <tr>
+                        <td>
+                            @item.discipline_nom
+                        </td>
+                        <td>
+                            @item.description
+                        </td>
+                        <td>
+                            @DotNetSportAsso.Controllers.disciplineController.GetUserFullNameByLogin(item.utilisateur.login)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Voir les sections", "Index", "section", new { id = item.discipline_id }, new { @class = "btn btn - default" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+    }
+}
